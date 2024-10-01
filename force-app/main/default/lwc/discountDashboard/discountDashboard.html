@@ -1,0 +1,44 @@
+<template>
+    <lightning-card title="Customer Tier Dashboard">
+        <div class="slds-p-around_medium">
+            <lightning-input
+                label="Enter Customer Name"
+                value={customerName}
+                onchange={handleInputChange}
+                placeholder="Enter Customer Name"
+                type="text">
+            </lightning-input>
+
+            <lightning-button
+                label="Search"
+                onclick={handleSearchClick}
+                class="slds-m-top_medium">
+            </lightning-button>
+
+            <lightning-spinner if:true={isLoading} alternative-text="Loading"></lightning-spinner>
+            
+            <template if:true={tierData}>
+                <div>
+                    <h2>Current Tier: {tierData.currentTier}</h2>
+                    <h3>Amount Saved: {tierData.totalSavings} USD</h3>
+
+                    <lightning-accordion allow-multiple-sections-open>
+                        <lightning-accordion-section label="Tier History" name="1">
+                            <template for:each={tierData.tiers} for:item="tier">
+                                <div key={tier.name}>
+                                    <h4>{tier.name} Tier</h4>
+                                    <p>Assigned On: {tier.assignedDate}</p>
+                                    <p>Amount Saved: {tier.savedAmount} USD</p>
+                                </div>
+                            </template>
+                        </lightning-accordion-section>
+                    </lightning-accordion>
+                </div>
+            </template>
+
+            <template if:true={error}>
+                <p>{error}</p>
+            </template>
+        </div>
+    </lightning-card>
+</template>
